@@ -50,6 +50,8 @@ public class GameScreen extends Base2DScreen {
     private Sound bulletSound;
     private Sound laserSound;
 
+    private int frags;
+
     public GameScreen(Game game) {
         super(game);
     }
@@ -125,6 +127,7 @@ public class GameScreen extends Base2DScreen {
             if (enemy.pos.dst2(mainShip.pos) < minDist * minDist) {
                 enemy.boom();
                 enemy.destroy();
+                //здесь столкновение с эраном
                 return;
             }
         }
@@ -152,6 +155,11 @@ public class GameScreen extends Base2DScreen {
                 if (enemy.isBulletCollision(bullet)) {
                     enemy.damage(bullet.getDamage());
                     bullet.destroy();
+                    //считаем количество убитых врагов
+                    if (enemy.isDestroyed()) {
+                        frags++;
+                        break;
+                    }
                 }
             }
         }
