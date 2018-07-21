@@ -117,7 +117,8 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         //Align.center - выравнивание по центру
         font.draw(batch, sbHp.append("HP: ").append(mainShip.getHp()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
         //пока первый уровень всегда
-        font.draw(batch, sbStage.append("Stage: ").append(1), worldBounds.getRight(), worldBounds.getTop(), Align.right);
+//        font.draw(batch, sbStage.append("Stage: ").append(1), worldBounds.getRight(), worldBounds.getTop(), Align.right);
+        font.draw(batch, sbStage.append("Stage: ").append(enemiesEmitter.getStage()), worldBounds.getRight(), worldBounds.getTop(), Align.right);
     }
 
     @Override
@@ -138,7 +139,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             case PLAYING:
                 bulletPool.updateActiveSprites(delta);
                 enemyPool.updateActiveSprites(delta);
-                enemiesEmitter.generateEnemies(delta);
+                enemiesEmitter.generateEnemies(delta,frags);
                 mainShip.update(delta);
                 if (mainShip.isDestroyed()) {
                     state = State.GAME_OVER;
@@ -279,6 +280,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         frags = 0;
 
         mainShip.setToNewGame();
+        enemiesEmitter.setToNewGame();
 
         bulletPool.freeAllActiveSprites();
         enemyPool.freeAllActiveSprites();
