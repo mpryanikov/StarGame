@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
 
+import ru.geekbrains.stargame.base.ActionListener;
 import ru.geekbrains.stargame.base.Base2DScreen;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.math.Rnd;
@@ -20,6 +21,7 @@ import ru.geekbrains.stargame.pools.EnemyPool;
 import ru.geekbrains.stargame.pools.ExplosionPool;
 import ru.geekbrains.stargame.sprite.Background;
 import ru.geekbrains.stargame.sprite.Bullet;
+import ru.geekbrains.stargame.sprite.ButtonNewGame;
 import ru.geekbrains.stargame.sprite.Enemy;
 import ru.geekbrains.stargame.sprite.Explosion;
 import ru.geekbrains.stargame.sprite.MainShip;
@@ -28,7 +30,7 @@ import ru.geekbrains.stargame.sprite.Star;
 import ru.geekbrains.stargame.utils.EnemiesEmitter;
 
 
-public class GameScreen extends Base2DScreen {
+public class GameScreen extends Base2DScreen implements ActionListener {
 
     private static final int STAR_COUNT = 56;
     private static final float STAR_HEIGHT = 0.01f;
@@ -55,6 +57,7 @@ public class GameScreen extends Base2DScreen {
     private Sound laserSound;
 
     private MessageGameOver messageGameOver;
+    private ButtonNewGame buttonNewGame;
 
     private int frags;
 
@@ -86,6 +89,7 @@ public class GameScreen extends Base2DScreen {
         enemyPool = new EnemyPool(bulletPool, worldBounds, explosionPool, mainShip, bulletSound);
         enemiesEmitter = new EnemiesEmitter(worldBounds, enemyPool, atlas);
         messageGameOver = new MessageGameOver(atlas);
+        buttonNewGame = new ButtonNewGame(atlas, this);
         startNewGame();
     }
 
@@ -132,6 +136,7 @@ public class GameScreen extends Base2DScreen {
         explosionPool.drawActiveSprites(batch);
         if (state == State.GAME_OVER) {
             messageGameOver.draw(batch);
+            buttonNewGame.draw(batch);
         }
         batch.end();
     }
@@ -231,11 +236,13 @@ public class GameScreen extends Base2DScreen {
     @Override
     public void touchDown(Vector2 touch, int pointer) {
         mainShip.touchDown(touch, pointer);
+        buttonNewGame.touchDown(touch, pointer);
     }
 
     @Override
     public void touchUp(Vector2 touch, int pointer) {
         mainShip.touchUp(touch, pointer);
+        buttonNewGame.touchUp(touch, pointer);
     }
 
     private void startNewGame() {
@@ -247,6 +254,13 @@ public class GameScreen extends Base2DScreen {
         bulletPool.freeAllActiveSprites();
         enemyPool.freeAllActiveSprites();
         explosionPool.freeAllActiveSprites();
+    }
+
+    @Override
+    public void actionPerformed(Object src) {
+        if (src == buttonNewGame) {
+            startNewGame();
+        }
     }
 
 }
