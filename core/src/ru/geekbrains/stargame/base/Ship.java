@@ -74,6 +74,8 @@ public class Ship extends Sprite {
         Explosion explosion = explosionPool.obtain();
         //взрыв больше в 1.5 размеров корабля
         explosion.set(getHeight()*(float)1.5, pos);
+        //обнудение жизней
+        hp = 0;
     }
 
     public void damage(int damage) {
