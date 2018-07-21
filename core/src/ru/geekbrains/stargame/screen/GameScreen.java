@@ -9,11 +9,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.List;
 
 import ru.geekbrains.stargame.base.ActionListener;
 import ru.geekbrains.stargame.base.Base2DScreen;
+import ru.geekbrains.stargame.base.Font;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.math.Rnd;
 import ru.geekbrains.stargame.pools.BulletPool;
@@ -34,6 +36,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     private static final int STAR_COUNT = 56;
     private static final float STAR_HEIGHT = 0.01f;
+    private static final float FONT_SIZE = 0.02f;
 
     private enum State {PLAYING, GAME_OVER}
     private State state;
@@ -58,6 +61,12 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     private MessageGameOver messageGameOver;
     private ButtonNewGame buttonNewGame;
+
+    private Font font;
+
+    //строка вывода
+    //StringBuilder - чтобы не было утечки памяти
+    private StringBuilder sbFrags = new StringBuilder();
 
     private int frags;
 
@@ -90,7 +99,15 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         enemiesEmitter = new EnemiesEmitter(worldBounds, enemyPool, atlas);
         messageGameOver = new MessageGameOver(atlas);
         buttonNewGame = new ButtonNewGame(atlas, this);
+        font = new Font("font/font.fnt", "font/font.png");
+        font.setWorldSize(FONT_SIZE);
         startNewGame();
+    }
+
+    //вызвывется 60 раз в сек.
+    private void printInfo() {
+        sbFrags.setLength(0);
+        font.draw(batch, sbFrags.append("Frags: ").append(frags), worldBounds.getLeft(), worldBounds.getTop());
     }
 
     @Override
@@ -138,6 +155,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             messageGameOver.draw(batch);
             buttonNewGame.draw(batch);
         }
+        printInfo();
         batch.end();
     }
 
@@ -218,6 +236,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         explosionSound.dispose();
         bulletSound.dispose();
         laserSound.dispose();
+        font.dispose();
         super.dispose();
     }
 
