@@ -67,6 +67,10 @@ public class GameScreen extends Base2DScreen implements ActionListener {
     //строка вывода
     //StringBuilder - чтобы не было утечки памяти
     private StringBuilder sbFrags = new StringBuilder();
+    //количество жизни
+    private StringBuilder sbHp = new StringBuilder();
+    //уровень игры
+    private StringBuilder sbStage = new StringBuilder();
 
     private int frags;
 
@@ -107,7 +111,13 @@ public class GameScreen extends Base2DScreen implements ActionListener {
     //вызвывется 60 раз в сек.
     private void printInfo() {
         sbFrags.setLength(0);
+        sbHp.setLength(0);
+        sbStage.setLength(0);
         font.draw(batch, sbFrags.append("Frags: ").append(frags), worldBounds.getLeft(), worldBounds.getTop());
+        //Align.center - выравнивание по центру
+        font.draw(batch, sbHp.append("HP: ").append(mainShip.getHp()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
+        //пока первый уровень всегда
+        font.draw(batch, sbStage.append("Stage: ").append(1), worldBounds.getRight(), worldBounds.getTop(), Align.right);
     }
 
     @Override
