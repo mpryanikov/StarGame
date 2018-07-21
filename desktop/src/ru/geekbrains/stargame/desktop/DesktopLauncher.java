@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		float aspect = 3f/4f;
 		config.width = 450;
 		config.height = (int) (config.width / aspect);
+		config.resizable = false;
 		new LwjglApplication(new Star2DGame(), config);
 	}
 }

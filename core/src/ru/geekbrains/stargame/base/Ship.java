@@ -42,7 +42,7 @@ public class Ship extends Sprite {
         this.shootSound = sound;
     }
 
-    public Ship(TextureRegion region, int rows, int cols, int frames, Sound sound) {
+    public Ship(TextureRegion region, int rows, int cols, int frames, Sound sound, Rect worldBounds) {
         super(region, rows, cols, frames);
         this.shootSound = sound;
     }
