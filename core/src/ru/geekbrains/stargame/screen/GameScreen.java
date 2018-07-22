@@ -29,8 +29,8 @@ import ru.geekbrains.stargame.sprite.Explosion;
 import ru.geekbrains.stargame.sprite.MainShip;
 import ru.geekbrains.stargame.sprite.MessageGameOver;
 import ru.geekbrains.stargame.sprite.Star;
+import ru.geekbrains.stargame.sprite.TrackHp;
 import ru.geekbrains.stargame.utils.EnemiesEmitter;
-
 
 public class GameScreen extends Base2DScreen implements ActionListener {
 
@@ -74,6 +74,9 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     private int frags;
 
+    private TextureAtlas atlasHP;
+    private TrackHp trackHp;
+
     public GameScreen(Game game) {
         super(game);
     }
@@ -105,6 +108,8 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         buttonNewGame = new ButtonNewGame(atlas, this);
         font = new Font("font/font.fnt", "font/font.png");
         font.setWorldSize(FONT_SIZE);
+        atlasHP = new TextureAtlas("textures/HP.pack");
+        trackHp = new TrackHp(atlasHP);
         startNewGame();
     }
 
@@ -115,7 +120,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         sbStage.setLength(0);
         font.draw(batch, sbFrags.append("Frags: ").append(frags), worldBounds.getLeft(), worldBounds.getTop());
         //Align.center - выравнивание по центру
-        font.draw(batch, sbHp.append("HP: ").append(mainShip.getHp()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
+//        font.draw(batch, sbHp.append("HP: ").append(mainShip.getHp()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
         //пока первый уровень всегда
 //        font.draw(batch, sbStage.append("Stage: ").append(1), worldBounds.getRight(), worldBounds.getTop(), Align.right);
         font.draw(batch, sbStage.append("Stage: ").append(enemiesEmitter.getStage()), worldBounds.getRight(), worldBounds.getTop(), Align.right);
@@ -167,6 +172,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             buttonNewGame.draw(batch);
         }
         printInfo();
+        trackHp.draw(batch);
         batch.end();
     }
 
@@ -240,6 +246,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        atlasHP.dispose();
         bulletPool.dispose();
         enemyPool.dispose();
         explosionPool.dispose();
