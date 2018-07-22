@@ -10,7 +10,18 @@ public class TrackHp extends Sprite {
 
     public TrackHp(TextureAtlas atlas) {
         super(atlas.findRegion("HP_S"));
-        setHeightProportion(HEIGHT);
-        pos.y = 0.5f;
+        float lHEIGHT =  HEIGHT;
+        setHeightProportion(lHEIGHT);
+        pos.y = 0.5f - lHEIGHT / 2;
     }
+
+    public void hp(float value){
+        if (value > 0){
+            float lHEIGHT =  HEIGHT * value * 0.01f;
+            System.out.println("hp " + (value * 0.01f) +"/" + lHEIGHT);
+            setHeightProportion(lHEIGHT);
+            pos.y = 0.5f - lHEIGHT / 2;
+        }
+    }
+
 }

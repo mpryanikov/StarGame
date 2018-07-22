@@ -119,6 +119,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         sbHp.setLength(0);
         sbStage.setLength(0);
         font.draw(batch, sbFrags.append("Frags: ").append(frags), worldBounds.getLeft(), worldBounds.getTop());
+        trackHp.hp(mainShip.getHp());
         //Align.center - выравнивание по центру
 //        font.draw(batch, sbHp.append("HP: ").append(mainShip.getHp()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
         //пока первый уровень всегда
